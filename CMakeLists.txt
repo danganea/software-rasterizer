@@ -17,9 +17,17 @@ endif()
 
 find_package(SDL2 CONFIG REQUIRED)
 
+
 add_executable( ${PROJECT_NAME}
-	main.cpp
+	code/main.cpp
+	code/math/vector2d.h
+	code/math/vector3d.h
+	code/math/vector4d.h
+	code/defs.h
 )
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/code)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/code/math)
 
 #Libaries installed by vcpkg contain only targets-debug.cmake and targets-release.cmake.
 #We want RelWithDebInfo to link to release libraries though, for speed purposes. This 'hack'
