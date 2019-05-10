@@ -1,6 +1,7 @@
 #pragma once
-#include "vector2d.h"
+#include <cstring>
 #include <defs.h>
+#include "vector2d.h"
 namespace rast {
 
 using Pixel = uint32_t;
@@ -8,19 +9,17 @@ using Pixel = uint32_t;
 // Used to model the screen-space "surface" we write pixels to.
 // Writing pixels is done from the bottom left origin.
 class Surface {
-public:
+ public:
   Pixel *data = nullptr;
   int width = 0, height = 0, pitch = 0;
 
   Surface() = default;
 
-  void clear() {
-    memset(data, 0, pitch * height);
-  }
+  void clear() { std::memset(data, 0, pitch * height); }
 
   Surface(int w, int h) : width(w), height(h), pitch(width * sizeof(Pixel)) {
     data = new Pixel[width * height];
-		this->clear();
+    this->clear();
   }
 
   Surface(const Surface &other)
@@ -63,12 +62,12 @@ public:
   void drawLine(ivec2 p1, ivec2 p2) {
     for (int i = 0; i < height; ++i) {
       for (int j = 0; j < 10; ++j) {
-        writePixel(320 + j, i,0xFFFFFF00);
+        writePixel(320 + j, i, 0xFFFFFF00);
       }
     }
   }
 
-private:
+ private:
 };
 
 void swap(Surface &lhs, Surface &rhs) noexcept {
@@ -79,4 +78,4 @@ void swap(Surface &lhs, Surface &rhs) noexcept {
   swap(lhs.data, rhs.data);
 }
 
-} // namespace rast
+}  // namespace rast

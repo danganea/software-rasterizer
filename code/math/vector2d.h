@@ -2,16 +2,17 @@
 #include <defs.h>
 
 namespace rast {
-template <typename T> class Vector2D {
+template <typename T>
+class Vector2D {
   // TODO(DAN): Consistent usage of Vector<T> or just "Vector"
-public:
+ public:
   T x, y;
   Vector2D() = default;
   Vector2D(T x, T y) : x(x), y(y) {}
 
-	//Allow explicit vector conversions
-   template<typename U>
-   explicit Vector2D(const Vector2D<U>& other) : x(other.x), y(other.y) {}
+  // Allow explicit vector conversions
+  template <typename U>
+  explicit Vector2D(const Vector2D<U> &other) : x(other.x), y(other.y) {}
 
   inline bool hasNaN() { return isNaN(x) || isNaN(y); }
 
@@ -40,7 +41,8 @@ public:
     return Vector2D<T>(x - rhs.x, y - rhs.y);
   }
 
-  template <typename U> inline Vector2D operator*(U f) {
+  template <typename U>
+  inline Vector2D operator*(U f) {
     return Vector2D<T>(x * f, y * f);
   }
 
@@ -65,4 +67,4 @@ public:
 using vec2f = Vector2D<float>;
 using ivec2 = Vector2D<int>;
 using uivec2 = Vector2D<uint32_t>;
-} // namespace rast
+}  // namespace rast

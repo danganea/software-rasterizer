@@ -10,10 +10,10 @@ using namespace std;
 constexpr uint32_t WINDOW_WIDTH = 640;
 constexpr uint32_t WINDOW_HEIGHT = 640;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   SDL_Init(SDL_INIT_VIDEO);
 
-  SDL_Window *window =
+  SDL_Window* window =
       SDL_CreateWindow("SDL2 Pixel Drawing", SDL_WINDOWPOS_UNDEFINED,
                        SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
   uint32_t SDL_Renderer_Flags = 0;
   SDL_Renderer_Flags |= SDL_RENDERER_ACCELERATED;
 
-  SDL_Renderer *renderer =
+  SDL_Renderer* renderer =
       SDL_CreateRenderer(window, index, SDL_Renderer_Flags);
 
   if (!renderer) {
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  SDL_Texture *frameBuffer = SDL_CreateTexture(
+  SDL_Texture* frameBuffer = SDL_CreateTexture(
       renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING,
       WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -43,20 +43,9 @@ int main(int argc, char *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  rast::Surface surface(WINDOW_WIDTH,WINDOW_HEIGHT);
-	rast::Vector2D<int>::zero();
+  rast::Surface surface(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	surface.drawLine(rast::ivec2(0,0), rast::ivec2(0,0));
-
-  //for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT / 2; ++i) {
-  //  uint8_t colors[4] = {};
-  //  colors[0] = 0x00; // BLUE
-  //  colors[1] = 0x00; // GREEN
-  //  colors[2] = 0xFF; // RED
-  //  colors[3] = 0xFF;
-
-  //  memcpy(&surface.data[i], colors, sizeof(colors));
-  //}
+  surface.drawLine(rast::ivec2(0, 0), rast::ivec2(0, 0));
 
   bool quit = false;
   SDL_Event event;
@@ -65,13 +54,13 @@ int main(int argc, char *argv[]) {
     SDL_WaitEvent(&event);
 
     switch (event.type) {
-    case SDL_QUIT:
-      quit = true;
-      break;
+      case SDL_QUIT:
+        quit = true;
+        break;
     }
 
     // Get mapped GPU texture & pitch of texture
-    void *mappedTexture = nullptr;
+    void* mappedTexture = nullptr;
     int pitch = 0;
     SDL_LockTexture(frameBuffer, NULL, &mappedTexture, &pitch);
 
@@ -82,8 +71,8 @@ int main(int argc, char *argv[]) {
       memcpy(mappedTexture, surface.data, WINDOW_WIDTH * WINDOW_HEIGHT * 4);
     } else {
       // Need to loop over surface to handle pitch.
-      unsigned char *t = reinterpret_cast<unsigned char *>(mappedTexture);
-      for (int i = 0; i < WINDOW_HEIGHT; ++i) {
+      unsigned char* t = reinterpret_cast<unsigned char*>(mappedTexture);
+      for (size_t i = 0; i < WINDOW_HEIGHT; ++i) {
         memcpy(t + i * pitch, surface.data + i * WINDOW_WIDTH, WINDOW_WIDTH);
       }
     }
