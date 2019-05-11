@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 
   rast::Surface surface(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-  surface.drawLine(rast::ivec2(0, 0), rast::ivec2(0, 0));
+  surface.drawLine(rast::ivec2(0, 0), rast::ivec2(640, 640));
 
   bool quit = false;
   SDL_Event event;
